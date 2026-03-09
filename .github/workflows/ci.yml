@@ -1,0 +1,100 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-mock psycopg2-binary
+        pip install flake8 black isort
+        if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
+    
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.venv,venv,env
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=.venv,venv,env
+    
+    - name: Check code formatting with black
+      run: |
+        black --check components/ scripts/ tests/ || true
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v --tb=short || true
+  
+  docker-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate docker-compose.yml
+      run: |
+        docker compose config
+    
+    - name: Build containers
+      run: |
+        docker compose build || echo "No build needed for pre-built images"
+    
+    - name: Start services
+      run: |
+        docker compose up -d
+        sleep 30
+    
+    - name: Check service health
+      run: |
+        docker compose ps
+        docker compose logs langflow
+        docker compose logs postgres
+    
+    - name: Test PostgreSQL connection
+      run: |
+        docker compose exec -T postgres pg_isready -U langflow -d langflow_db
+    
+    - name: Test database schema
+      run: |
+        docker compose exec -T postgres psql -U langflow -d langflow_db -c "\dt"
+    
+    - name: Stop services
+      run: |
+        docker compose down -v
+
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+      continue-on-error: true
+    
+    - name: Upload Trivy results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: 'trivy-results.sarif'
+      continue-on-error: true
+

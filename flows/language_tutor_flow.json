@@ -1,0 +1,201 @@
+{
+    "name": "Language Tutor Agent",
+    "description": "An AI language tutor agent that generates reading passages from stored vocabulary and allows users to add new words.",
+    "data": {
+        "nodes": [
+            {
+                "id": "ChatInput-1",
+                "type": "ChatInput",
+                "position": {
+                    "x": 100,
+                    "y": 300
+                },
+                "data": {
+                    "node": {
+                        "display_name": "Chat Input",
+                        "description": "Receives user messages for the language tutor.",
+                        "template": {}
+                    }
+                }
+            },
+            {
+                "id": "ChatOutput-1",
+                "type": "ChatOutput",
+                "position": {
+                    "x": 1200,
+                    "y": 300
+                },
+                "data": {
+                    "node": {
+                        "display_name": "Chat Output",
+                        "description": "Displays the agent response to the user.",
+                        "template": {}
+                    }
+                }
+            },
+            {
+                "id": "OpenAIModel-1",
+                "type": "OpenAIModel",
+                "position": {
+                    "x": 400,
+                    "y": 100
+                },
+                "data": {
+                    "node": {
+                        "display_name": "OpenAI",
+                        "description": "OpenAI language model for generating responses.",
+                        "template": {
+                            "model_name": {
+                                "value": "gpt-4o-mini"
+                            },
+                            "openai_api_key": {
+                                "value": ""
+                            },
+                            "temperature": {
+                                "value": 0.7
+                            },
+                            "max_tokens": {
+                                "value": 2048
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "Agent-1",
+                "type": "Agent",
+                "position": {
+                    "x": 700,
+                    "y": 300
+                },
+                "data": {
+                    "node": {
+                        "display_name": "Language Tutor Agent",
+                        "description": "AI agent configured as a language tutor with access to vocabulary tools.",
+                        "template": {
+                            "agent_llm": {
+                                "value": ""
+                            },
+                            "system_prompt": {
+                                "value": "You are a helpful AI language tutor. Your role is to assist users in learning a new language through personalized reading practice and vocabulary management.\n\nYou have access to two tools:\n\n1. Vocabulary Loader: Use this tool to retrieve the user's known vocabulary words from the database. Always use this tool before generating any reading content so that you can tailor the content to words the user already knows.\n\n2. Word Adder: Use this tool when a user wants to add a new word to their vocabulary list. Extract the word, its meaning, the language, and optionally an example sentence from the user's message.\n\nWhen asked to create a story or reading passage:\n- First, retrieve the user's known vocabulary using the Vocabulary Loader tool.\n- Generate a short, engaging story or passage in the target language that primarily uses the retrieved vocabulary words.\n- After the passage, provide a brief translation or explanation of any new words introduced.\n- Keep passages at an appropriate difficulty level based on the vocabulary size.\n\nWhen asked to add a word:\n- Use the Word Adder tool with the word, meaning, language, and an example sentence if provided.\n- Confirm the addition to the user.\n\nAlways respond in a clear, encouraging, and educational tone. Keep explanations concise and practical."
+                            },
+                            "tools": {
+                                "value": []
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "VocabularyLoader-1",
+                "type": "VocabularyLoader",
+                "position": {
+                    "x": 400,
+                    "y": 500
+                },
+                "data": {
+                    "node": {
+                        "display_name": "Vocabulary Loader",
+                        "description": "Loads vocabulary from the PostgreSQL database.",
+                        "template": {
+                            "db_host": {
+                                "value": "langflow-postgres"
+                            },
+                            "db_port": {
+                                "value": "5432"
+                            },
+                            "db_name": {
+                                "value": "langflow_db"
+                            },
+                            "db_user": {
+                                "value": "langflow"
+                            },
+                            "db_password": {
+                                "value": "langflow_secret"
+                            },
+                            "language_filter": {
+                                "value": "Spanish"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "WordAdder-1",
+                "type": "WordAdder",
+                "position": {
+                    "x": 400,
+                    "y": 700
+                },
+                "data": {
+                    "node": {
+                        "display_name": "Word Adder",
+                        "description": "Adds new words to the PostgreSQL vocabulary database.",
+                        "template": {
+                            "db_host": {
+                                "value": "langflow-postgres"
+                            },
+                            "db_port": {
+                                "value": "5432"
+                            },
+                            "db_name": {
+                                "value": "langflow_db"
+                            },
+                            "db_user": {
+                                "value": "langflow"
+                            },
+                            "db_password": {
+                                "value": "langflow_secret"
+                            },
+                            "word": {
+                                "value": ""
+                            },
+                            "language": {
+                                "value": "Spanish"
+                            },
+                            "meaning": {
+                                "value": ""
+                            },
+                            "example_sentence": {
+                                "value": ""
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "source": "ChatInput-1",
+                "target": "Agent-1",
+                "sourceHandle": "message",
+                "targetHandle": "input"
+            },
+            {
+                "source": "OpenAIModel-1",
+                "target": "Agent-1",
+                "sourceHandle": "model_output",
+                "targetHandle": "agent_llm"
+            },
+            {
+                "source": "VocabularyLoader-1",
+                "target": "Agent-1",
+                "sourceHandle": "vocabulary_output",
+                "targetHandle": "tools"
+            },
+            {
+                "source": "WordAdder-1",
+                "target": "Agent-1",
+                "sourceHandle": "add_result",
+                "targetHandle": "tools"
+            },
+            {
+                "source": "Agent-1",
+                "target": "ChatOutput-1",
+                "sourceHandle": "response",
+                "targetHandle": "input"
+            }
+        ]
+    },
+    "is_component": false
+}

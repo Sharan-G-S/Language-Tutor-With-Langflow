@@ -1,0 +1,12 @@
+# Database connector
+psycopg2-binary>=2.9.9
+
+# Testing
+pytest>=7.4.0
+pytest-mock>=3.11.1
+pytest-cov>=4.1.0
+
+# Code quality
+black>=23.7.0
+flake8>=6.1.0
+isort>=5.12.0
