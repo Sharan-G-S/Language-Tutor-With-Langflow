@@ -6,11 +6,11 @@ A stateful AI language tutor built with [Langflow](https://www.langflow.org/) an
 
 ## Features
 
-- 🗣️ **Multi-language support** - 110 vocabulary words across 4 languages
-- 📚 **Vocabulary management** - Store and retrieve words from PostgreSQL
-- ✍️ **Personalized content** - AI generates stories using your vocabulary
-- 🎨 **Visual workflow** - No-code interface with Langflow
-- 🧪 **Fully tested** - Comprehensive test suite with CI/CD
+-  **Multi-language support** - 110 vocabulary words across 4 languages
+-  **Vocabulary management** - Store and retrieve words from PostgreSQL
+-  **Personalized content** - AI generates stories using your vocabulary
+-  **Visual workflow** - No-code interface with Langflow
+-  **Fully tested** - Comprehensive test suite with CI/CD
 
 ## Quick Start
 
