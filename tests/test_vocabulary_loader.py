@@ -9,10 +9,11 @@ from unittest.mock import Mock, patch, MagicMock
 import sys
 import os
 
-# Add components directory to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'components'))
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
-from VocabularyLoader import VocabularyLoader
+from components.VocabularyLoader import VocabularyLoader
 
 
 @pytest.fixture
@@ -28,7 +29,7 @@ def vocab_loader():
     return loader
 
 
-@patch('VocabularyLoader.psycopg2.connect')
+@patch('components.VocabularyLoader.psycopg2.connect')
 def test_load_vocabulary_success(mock_connect, vocab_loader):
     """Test successful vocabulary loading."""
     # Mock database connection and cursor
@@ -56,7 +57,7 @@ def test_load_vocabulary_success(mock_connect, vocab_loader):
     mock_conn.close.assert_called_once()
 
 
-@patch('VocabularyLoader.psycopg2.connect')
+@patch('components.VocabularyLoader.psycopg2.connect')
 def test_load_vocabulary_empty_database(mock_connect, vocab_loader):
     """Test loading vocabulary from an empty database."""
     # Mock database connection with no results
@@ -74,7 +75,7 @@ def test_load_vocabulary_empty_database(mock_connect, vocab_loader):
     assert "No vocabulary words found" in result.text
 
 
-@patch('VocabularyLoader.psycopg2.connect')
+@patch('components.VocabularyLoader.psycopg2.connect')
 def test_load_vocabulary_with_language_filter(mock_connect, vocab_loader):
     """Test vocabulary loading with language filter."""
     # Mock database connection
@@ -95,7 +96,7 @@ def test_load_vocabulary_with_language_filter(mock_connect, vocab_loader):
     assert call_args[0][1] == ("Spanish",)
 
 
-@patch('VocabularyLoader.psycopg2.connect')
+@patch('components.VocabularyLoader.psycopg2.connect')
 def test_load_vocabulary_no_language_filter(mock_connect, vocab_loader):
     """Test vocabulary loading without language filter."""
     # Mock database connection
@@ -115,7 +116,7 @@ def test_load_vocabulary_no_language_filter(mock_connect, vocab_loader):
     assert "WHERE" not in call_args[0][0]
 
 
-@patch('VocabularyLoader.psycopg2.connect')
+@patch('components.VocabularyLoader.psycopg2.connect')
 def test_load_vocabulary_connection_error(mock_connect, vocab_loader):
     """Test handling of database connection errors."""
     # Mock connection error

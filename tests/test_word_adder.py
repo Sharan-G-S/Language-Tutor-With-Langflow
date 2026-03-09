@@ -9,10 +9,11 @@ from unittest.mock import Mock, patch, MagicMock
 import sys
 import os
 
-# Add components directory to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'components'))
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
-from WordAdder import WordAdder
+from components.WordAdder import WordAdder
 
 
 @pytest.fixture
@@ -28,7 +29,7 @@ def word_adder():
     return adder
 
 
-@patch('WordAdder.psycopg2.connect')
+@patch('components.WordAdder.psycopg2.connect')
 def test_add_word_success(mock_connect, word_adder):
     """Test successfully adding a new word."""
     # Setup
@@ -57,7 +58,7 @@ def test_add_word_success(mock_connect, word_adder):
     mock_conn.close.assert_called_once()
 
 
-@patch('WordAdder.psycopg2.connect')
+@patch('components.WordAdder.psycopg2.connect')
 def test_add_word_without_example(mock_connect, word_adder):
     """Test adding a word without an example sentence."""
     # Setup
@@ -103,7 +104,7 @@ def test_add_word_missing_meaning(word_adder):
     assert "No meaning provided" in result.text
 
 
-@patch('WordAdder.psycopg2.connect')
+@patch('components.WordAdder.psycopg2.connect')
 def test_add_word_database_error(mock_connect, word_adder):
     """Test handling of database errors."""
     # Setup
@@ -120,7 +121,7 @@ def test_add_word_database_error(mock_connect, word_adder):
     assert "Error adding word" in result.text
 
 
-@patch('WordAdder.psycopg2.connect')
+@patch('components.WordAdder.psycopg2.connect')
 def test_add_word_strips_whitespace(mock_connect, word_adder):
     """Test that word and meaning are stripped of whitespace."""
     # Setup with extra whitespace
@@ -146,7 +147,7 @@ def test_add_word_strips_whitespace(mock_connect, word_adder):
     assert call_args[3] == "example"  # example_sentence
 
 
-@patch('WordAdder.psycopg2.connect')
+@patch('components.WordAdder.psycopg2.connect')
 def test_add_word_converts_to_lowercase(mock_connect, word_adder):
     """Test that words are converted to lowercase."""
     # Setup with uppercase word
