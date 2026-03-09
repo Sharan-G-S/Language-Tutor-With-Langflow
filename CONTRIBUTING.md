@@ -264,21 +264,35 @@ if __name__ == "__main__":
     seed_vocabulary(csv_path)
 ```
 
+### 3. Update seed_all.py
+
+Add your language to the `seed_all.py` script:
+
+```python
+languages = [
+    ("Spanish", "vocab_seed.csv"),
+    ("French", "vocab_french.csv"),
+    ("German", "vocab_german.csv"),
+    ("Tamil", "vocab_tamil.csv"),
+    ("YourLanguage", "vocab_yourlanguage.csv"),  # Add here
+]
+```
+
 ### 3. Update Documentation
 
 Add instructions to the README.md for using the new language:
 
 ```markdown
-### French Language Support
+### Your Language Support
 
-To use French vocabulary:
+To use YourLanguage vocabulary:
 
-1. Seed the French database:
+1. Seed the database:
    ```bash
-   python scripts/seed_french.py
+   python scripts/seed_yourlanguage.py
    ```
 
-2. Update the Language Filter in Langflow components to "French"
+2. Update the Language Filter in Langflow components to "YourLanguage"
 ```
 
 ### 4. Submit a Pull Request

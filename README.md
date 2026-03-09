@@ -230,7 +230,8 @@ This project ships with vocabulary datasets for multiple languages:
 | Spanish | 20 | `python scripts/seed_db.py` |
 | French | 25 | `python scripts/seed_french.py` |
 | German | 25 | `python scripts/seed_german.py` |
-| All | 70 | `python scripts/seed_all.py` |
+| Tamil | 30 | `python scripts/seed_tamil.py` |
+| All | 100 | `python scripts/seed_all.py` |
 
 To use a different language in Langflow:
 1. Change the `language_filter` input in the **Vocabulary Loader** component
@@ -265,11 +266,17 @@ Once the flow is running, you can interact with the tutor through the Langflow c
 
 ### Switching Languages
 
-To work with French or German vocabulary:
+To work with different languages (French, German, or Tamil):
 
-1. Update the Language Filter in the Vocabulary Loader component to "French" or "German"
+1. Update the Language Filter in the Vocabulary Loader component to "French", "German", or "Tamil"
 2. Seed the respective language data using the appropriate script
 3. Adjust your prompts to request content in that language
+
+**Example for Tamil:**
+```bash
+python scripts/seed_tamil.py
+```
+Then in Langflow, set the language filter to "Tamil" and ask the agent to create stories in Tamil using your vocabulary.
 
 ---
 
@@ -322,14 +329,16 @@ Language-Tutor-With-Langflow/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions CI/CD pipeline
 ├── components/
-│   ├── VocabularyLoader.py      # Custom component: retrieves vocabulary
+│   ├── vocab_german.csv         # German vocabulary (25 words)
+│   └── vocab_tamil.csv          # Tamil vocabulary (30rieves vocabulary
 │   └── WordAdder.py             # Custom component: adds new words
 ├── db/
 │   ├── init.sql                 # Database schema initialization
 │   ├── vocab_seed.csv           # Spanish vocabulary (20 words)
 │   ├── vocab_french.csv         # French vocabulary (25 words)
 │   └── vocab_german.csv         # German vocabulary (25 words)
-├── flows/
+├── flows/tamil.py            # Seed Tamil vocabulary
+│   ├── seed_
 │   └── language_tutor_flow.json # Langflow flow definition for import
 ├── scripts/
 │   ├── requirements.txt         # Python dependencies

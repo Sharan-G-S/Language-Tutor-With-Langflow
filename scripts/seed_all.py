@@ -22,6 +22,7 @@ def seed_all_languages():
         ("Spanish", "vocab_seed.csv"),
         ("French", "vocab_french.csv"),
         ("German", "vocab_german.csv"),
+        ("Tamil", "vocab_tamil.csv"),
     ]
     
     total_inserted = 0
