@@ -2,6 +2,8 @@
 
 A stateful AI language tutor built with [Langflow](https://www.langflow.org/) and PostgreSQL. Generates personalized reading passages based on stored vocabulary with support for Spanish, French, German, and Tamil.
 
+# Sharan G S
+
 ## Features
 
 - 🗣️ **Multi-language support** - 110 vocabulary words across 4 languages
@@ -199,4 +201,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built with ❤️ using Langflow**
+**Built with ❤️ from Sharan G S**
