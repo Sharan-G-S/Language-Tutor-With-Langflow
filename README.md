@@ -230,8 +230,8 @@ This project ships with vocabulary datasets for multiple languages:
 | Spanish | 20 | `python scripts/seed_db.py` |
 | French | 25 | `python scripts/seed_french.py` |
 | German | 25 | `python scripts/seed_german.py` |
-| Tamil | 30 | `python scripts/seed_tamil.py` |
-| All | 100 | `python scripts/seed_all.py` |
+| Tamil | 40 | `python scripts/seed_tamil.py` |
+| All | 110 | `python scripts/seed_all.py` |
 
 To use a different language in Langflow:
 1. Change the `language_filter` input in the **Vocabulary Loader** component
@@ -329,22 +329,22 @@ Language-Tutor-With-Langflow/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions CI/CD pipeline
 ├── components/
-│   ├── vocab_german.csv         # German vocabulary (25 words)
-│   └── vocab_tamil.csv          # Tamil vocabulary (30rieves vocabulary
+│   ├── VocabularyLoader.py      # Custom component: retrieves vocabulary
 │   └── WordAdder.py             # Custom component: adds new words
 ├── db/
 │   ├── init.sql                 # Database schema initialization
 │   ├── vocab_seed.csv           # Spanish vocabulary (20 words)
 │   ├── vocab_french.csv         # French vocabulary (25 words)
-│   └── vocab_german.csv         # German vocabulary (25 words)
-├── flows/tamil.py            # Seed Tamil vocabulary
-│   ├── seed_
+│   ├── vocab_german.csv         # German vocabulary (25 words)
+│   └── vocab_tamil.csv          # Tamil vocabulary (40 words)
+├── flows/
 │   └── language_tutor_flow.json # Langflow flow definition for import
 ├── scripts/
 │   ├── requirements.txt         # Python dependencies
 │   ├── seed_db.py               # Database seeding script (Spanish)
 │   ├── seed_french.py           # Seed French vocabulary
 │   ├── seed_german.py           # Seed German vocabulary
+│   ├── seed_tamil.py            # Seed Tamil vocabulary
 │   ├── seed_all.py              # Seed all languages
 │   └── health_check.py          # Service health check script
 ├── tests/
