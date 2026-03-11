@@ -48,7 +48,7 @@ make clean      # Stop and remove volumes
 
 Run `make help` for all available commands.
 
----
+
 
 ## Supported Languages
 
@@ -60,7 +60,7 @@ Run `make help` for all available commands.
 | Tamil    | 40    | `python scripts/seed_tamil.py` |
 | **Total** | **110** | `python scripts/seed_all.py` |
 
----
+
 
 
 ## Usage
@@ -86,7 +86,7 @@ Agent: ✓ Added "biblioteca"
 
 **Switch languages:** Change `language_filter` in the Vocabulary Loader component to "French", "German", or "Tamil".
 
----
+
 
 
 ## Custom Components
@@ -107,7 +107,7 @@ Adds or updates vocabulary words in PostgreSQL.
 
 Both components are in `components/` and connect to the `langflow-postgres` database.
 
----
+
 
 
 ## Project Structure
@@ -161,7 +161,7 @@ GitHub Actions runs on every push:
 - Tests with coverage
 - Security scanning (bandit, safety)
 
----
+
 
 
 ## Troubleshooting
@@ -193,12 +193,12 @@ make seed  # or python scripts/seed_all.py
 - Validate API key and credits
 - Check model name (default: `gpt-4o-mini`)
 
----
+
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
----
+
 
 **Built with ❤️ from Sharan G S**
